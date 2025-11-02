@@ -1,5 +1,5 @@
 <?php
-// dashboard.php
+// dashboard.php (Dark Red Theme)
 $DB_HOST = 'localhost';
 $DB_USER = 's67160398';
 $DB_PASS = '52MgpCN9';
@@ -46,12 +46,12 @@ function nf($n) { return number_format((float)$n, 2); }
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <style>
-    body { background: #e0d7f6; color: #1e1b4b; font-family: 'Segoe UI', sans-serif; }
-    .card { background: #f3e8ff; border: 1px solid #d3b3ff; border-radius: 1rem; }
-    .card h5 { color: #4B0082; font-weight: bold; } /* หัวข้อสีม่วงเข้ม */
-    h2 { color: #4B0082; text-shadow: 1px 1px 2px #fff; } /* หัวข้อใหญ่สีม่วงเข้ม */
-    .kpi { font-size: 1.4rem; font-weight: 700; color: #1e1b4b; }
-    .sub { color: #6b21a8; font-size: .9rem; }
+    body { background: #000000; color: #FF4C4C; font-family: 'Segoe UI', sans-serif; }
+    .card { background: #1c1c1c; border: 1px solid #330000; border-radius: 1rem; }
+    .card h5 { color: #FF3333; font-weight: bold; }
+    h2 { color: #FF0000; text-shadow: 1px 1px 2px #330000; }
+    .kpi { font-size: 1.4rem; font-weight: 700; color: #FF6666; }
+    .sub { color: #FF4C4C; font-size: .9rem; }
     .grid { display: grid; gap: 1rem; grid-template-columns: repeat(12, 1fr); }
     .col-12 { grid-column: span 12; }
     .col-6 { grid-column: span 6; }
@@ -60,7 +60,7 @@ function nf($n) { return number_format((float)$n, 2); }
     @media (max-width: 991px) {
       .col-6, .col-4, .col-8 { grid-column: span 12; }
     }
-    canvas { max-height: 360px; background: #fff; border-radius: 0.5rem; }
+    canvas { max-height: 360px; background: #111111; border-radius: 0.5rem; }
   </style>
 </head>
 <body class="p-3 p-md-4">
@@ -136,61 +136,68 @@ const newReturning = <?= json_encode($newReturning, JSON_UNESCAPED_UNICODE) ?>;
 
 const toXY = (arr, x, y) => ({ labels: arr.map(o => o[x]), values: arr.map(o => parseFloat(o[y])) });
 
+// Monthly Sales
 (() => {
   const {labels, values} = toXY(monthly, 'ym', 'net_sales');
   new Chart(document.getElementById('chartMonthly'), {
     type: 'line',
-    data: { labels, datasets: [{ label: 'ยอดขาย (฿)', data: values, tension: .25, fill: true, backgroundColor: 'rgba(139, 0, 255, 0.2)', borderColor: '#8B00FF', borderWidth: 2 }] },
-    options: { plugins: { legend: { labels: { color: '#4B0082' } } }, scales: { x: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } }, y: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } } } }
+    data: { labels, datasets: [{ label: 'ยอดขาย (฿)', data: values, tension: .25, fill: true, backgroundColor: 'rgba(255,76,76,0.2)', borderColor: '#FF3333', borderWidth: 2 }] },
+    options: { plugins: { legend: { labels: { color: '#FF6666' } } }, scales: { x: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } }, y: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } } } }
   });
 })();
 
+// Sales by Category
 (() => {
   const {labels, values} = toXY(category, 'category', 'net_sales');
   new Chart(document.getElementById('chartCategory'), {
     type: 'doughnut',
-    data: { labels, datasets: [{ data: values, backgroundColor: ['#DA70D6','#BA55D3','#9932CC','#8A2BE2','#9400D3','#EE82EE','#D8BFD8','#C71585','#DB7093','#FF00FF'] }] },
-    options: { plugins: { legend: { position: 'bottom', labels: { color: '#4B0082' } } } }
+    data: { labels, datasets: [{ data: values, backgroundColor: ['#FF3333','#FF4C4C','#FF6666','#FF0000','#CC0000','#FF8080','#FF9999','#FF1A1A','#FF5555','#FF1C1C'] }] },
+    options: { plugins: { legend: { position: 'bottom', labels: { color: '#FF6666' } } } }
   });
 })();
 
+// Top Products
 (() => {
   const labels = topProducts.map(o => o.product_name);
   const qty = topProducts.map(o => parseInt(o.qty_sold));
   new Chart(document.getElementById('chartTopProducts'), {
     type: 'bar',
-    data: { labels, datasets: [{ label: 'ชิ้นที่ขาย', data: qty, backgroundColor: '#DA70D6' }] },
-    options: { indexAxis: 'y', plugins: { legend: { labels: { color: '#4B0082' } } }, scales: { x: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } }, y: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } } } }
+    data: { labels, datasets: [{ label: 'ชิ้นที่ขาย', data: qty, backgroundColor: '#FF3333' }] },
+    options: { indexAxis: 'y', plugins: { legend: { labels: { color: '#FF6666' } } }, scales: { x: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } }, y: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } } } }
   });
 })();
 
+// Sales by Region
 (() => {
   const {labels, values} = toXY(region, 'region', 'net_sales');
   new Chart(document.getElementById('chartRegion'), {
     type: 'bar',
-    data: { labels, datasets: [{ label: 'ยอดขาย (฿)', data: values, backgroundColor: '#BA55D3' }] },
-    options: { plugins: { legend: { labels: { color: '#4B0082' } } }, scales: { x: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } }, y: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } } } }
+    data: { labels, datasets: [{ label: 'ยอดขาย (฿)', data: values, backgroundColor: '#FF4C4C' }] },
+    options: { plugins: { legend: { labels: { color: '#FF6666' } } }, scales: { x: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } }, y: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } } } }
   });
 })();
 
+// Payment Method
 (() => {
   const {labels, values} = toXY(payment, 'payment_method', 'net_sales');
   new Chart(document.getElementById('chartPayment'), {
     type: 'pie',
-    data: { labels, datasets: [{ data: values, backgroundColor: ['#BA55D3','#DA70D6','#9932CC','#8A2BE2','#DDA0DD'] }] },
-    options: { plugins: { legend: { position: 'bottom', labels: { color: '#4B0082' } } } }
+    data: { labels, datasets: [{ data: values, backgroundColor: ['#FF3333','#FF4C4C','#FF6666','#FF0000','#CC0000'] }] },
+    options: { plugins: { legend: { position: 'bottom', labels: { color: '#FF6666' } } } }
   });
 })();
 
+// Hourly Sales
 (() => {
   const {labels, values} = toXY(hourly, 'hour_of_day', 'net_sales');
   new Chart(document.getElementById('chartHourly'), {
     type: 'bar',
-    data: { labels, datasets: [{ label: 'ยอดขาย (฿)', data: values, backgroundColor: '#DDA0DD' }] },
-    options: { plugins: { legend: { labels: { color: '#4B0082' } } }, scales: { x: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } }, y: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } } } }
+    data: { labels, datasets: [{ label: 'ยอดขาย (฿)', data: values, backgroundColor: '#FF6666' }] },
+    options: { plugins: { legend: { labels: { color: '#FF6666' } } }, scales: { x: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } }, y: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } } } }
   });
 })();
 
+// New vs Returning Customers
 (() => {
   const labels = newReturning.map(o => o.date_key);
   const newC = newReturning.map(o => parseFloat(o.new_customer_sales));
@@ -198,10 +205,10 @@ const toXY = (arr, x, y) => ({ labels: arr.map(o => o[x]), values: arr.map(o => 
   new Chart(document.getElementById('chartNewReturning'), {
     type: 'line',
     data: { labels, datasets: [
-      { label: 'ลูกค้าใหม่ (฿)', data: newC, tension: .25, fill: false, borderColor: '#8A2BE2' },
-      { label: 'ลูกค้าเดิม (฿)', data: retC, tension: .25, fill: false, borderColor: '#DA70D6' }
+      { label: 'ลูกค้าใหม่ (฿)', data: newC, tension: .25, fill: false, borderColor: '#FF3333' },
+      { label: 'ลูกค้าเดิม (฿)', data: retC, tension: .25, fill: false, borderColor: '#FF4C4C' }
     ] },
-    options: { plugins: { legend: { labels: { color: '#4B0082' } } }, scales: { x: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } }, y: { ticks: { color: '#4B0082' }, grid: { color: 'rgba(139,0,255,0.1)' } } } }
+    options: { plugins: { legend: { labels: { color: '#FF6666' } } }, scales: { x: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } }, y: { ticks: { color: '#FF6666' }, grid: { color: 'rgba(255,0,0,0.1)' } } } }
   });
 })();
 </script>
