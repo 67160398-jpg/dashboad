@@ -1,10 +1,12 @@
 <?php
+session_start();
 require __DIR__ . '/config_mysqli.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $errors = [];
 $success = "";
+$username = $email = $full_name = "";
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -80,39 +82,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body { 
-    background: #e0d7f6; 
+    background: #0f172a; 
     font-family: 'Segoe UI', sans-serif; 
-    color: #1e1b4b; 
+    color: #f87171; 
     margin:0; padding:0; 
 }
 .container { 
     max-width: 480px; 
     margin: 60px auto; 
-    background: #f3e8ff; 
-    border: 1px solid #d3b3ff; 
+    background: #111827; 
+    border: 1px solid #f87171; 
     border-radius: 1rem; 
     padding: 30px 24px; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(248,113,113,0.2);
 }
 h1 { 
-    color: #4B0082; 
+    color: #f87171; 
     text-align:center; 
     margin-bottom: 24px; 
-    text-shadow: 1px 1px 2px #fff; 
+    text-shadow: 1px 1px 2px #000; 
 }
 label { 
     display:block; 
     font-weight:600; 
     margin-top: 12px; 
-    color: #4B0082; 
+    color: #f87171; 
 }
 input { 
     width:100%; 
     padding:12px; 
     border-radius:12px; 
-    border:1px solid #d3b3ff; 
+    border:1px solid #f87171; 
     margin-top:6px;
-    background:#fff;
+    background:#1f2937;
+    color:#f87171;
 }
 button { 
     width:100%; 
@@ -120,13 +123,13 @@ button {
     border:none; 
     border-radius:12px; 
     margin-top:20px; 
-    background:#8B00FF; 
+    background:#dc2626; 
     color:#fff; 
     font-weight:700; 
     cursor:pointer; 
     transition:0.2s;
 }
-button:hover { background:#6a00c7; }
+button:hover { background:#b91c1c; }
 .alert { 
     padding:12px 14px; 
     border-radius:12px; 
@@ -134,18 +137,18 @@ button:hover { background:#6a00c7; }
     font-size:14px; 
 }
 .alert.error { 
-    background:#ffecec; 
-    color:#a40000; 
-    border:1px solid #ffc9c9; 
+    background:#7f1d1d; 
+    color:#fca5a5; 
+    border:1px solid #f87171; 
 }
 .alert.success { 
-    background:#eeefff; 
-    color:#2a0080; 
-    border:1px solid #d3b3ff; 
+    background:#1f2937; 
+    color:#f87171; 
+    border:1px solid #dc2626; 
 }
 .hint { 
     font-size:12px; 
-    color:#6b21a8; 
+    color:#fca5a5; 
     margin-top:2px; 
 }
 </style>
